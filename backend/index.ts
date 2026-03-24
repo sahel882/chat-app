@@ -9,5 +9,5 @@ connectDB().then(() => {
     })
 }).catch((error) => {
     console.log("Failed to start server:", error);
-    process.exit(1);
+    process.exit(0);
 })
