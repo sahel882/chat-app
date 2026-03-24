@@ -1,5 +1,5 @@
 import { db } from "./index";
-import { eq, and } from "drizzle-orm";
+import { eq, and, ne } from "drizzle-orm";
 import {
     users,
     chats,
@@ -31,6 +31,19 @@ export const upsertUser = async (data: NewUser) => {
         })
         .returning();
     return user;
+};
+
+export const getAllUsersExcept = async (userId: string) => {
+    return db.query.users.findMany({
+        where: ne(users.id, userId),
+        columns: {
+            id: true,
+            name: true,
+            email: true,
+            avatar: true,
+        },
+        limit: 50,
+    });
 };
 
 export const updateUser = async (id: string, data: Partial<NewUser>) => {
